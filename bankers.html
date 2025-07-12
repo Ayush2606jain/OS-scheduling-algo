@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banker's Algorithm Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .bankers-container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(102,126,234,0.08); padding: 32px; }
+        .bankers-header { text-align: center; margin-bottom: 30px; }
+        .bankers-header h1 { font-size: 2.2rem; font-weight: 700; color: #667eea; }
+        .bankers-header p { color: #4a5568; font-size: 1.1rem; }
+        .bankers-form { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px; }
+        .bankers-form input { width: 60px; padding: 8px; border-radius: 8px; border: 1.5px solid #e2e8f0; font-size: 1rem; text-align: center; }
+        .bankers-form label { font-weight: 500; color: #4a5568; margin-right: 8px; }
+        .bankers-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border: none; border-radius: 10px; padding: 12px 28px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: box-shadow 0.2s; margin-top: 10px; }
+        .bankers-btn:hover { box-shadow: 0 4px 16px rgba(102,126,234,0.15); }
+        .bankers-btn-lg { padding: 14px 36px; font-size: 1.1rem; }
+        .bankers-btn-sm { padding: 8px 16px; font-size: 0.9rem; }
+        .bankers-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        .bankers-table th, .bankers-table td { border: 1px solid #e2e8f0; padding: 10px 12px; text-align: center; }
+        .bankers-table th { background: #667eea; color: #fff; font-weight: 600; }
+        .bankers-table tr:nth-child(even) { background: #f7fafc; }
+        .bankers-safe { color: #38a169; font-weight: 700; font-size: 1.1rem; }
+        .bankers-unsafe { color: #e53e3e; font-weight: 700; font-size: 1.1rem; }
+        .bankers-back { display: inline-block; margin-bottom: 18px; color: #667eea; text-decoration: none; font-weight: 600; font-size: 1rem; }
+        .bankers-back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <div class="header-title-row">
+                <h1><i class="fas fa-shield-alt"></i> Banker’s Algorithm Simulator</h1>
+            </div>
+            <p class="header-tagline">Test system safety and resource allocation using the classic Banker’s Algorithm (Deadlock Avoidance).</p>
+        </div>
+    </header>
+    <nav class="main-nav-scroller">
+        <a href="index.html" class="main-nav-link"><i class="fas fa-tasks"></i> Scheduling Algorithms</a>
+        <a href="bankers.html" class="main-nav-link active"><i class="fas fa-shield-alt"></i> Banker’s Algorithm</a>
+    </nav>
+    <div class="bankers-container">
+        <div class="bankers-header">
+            <h1><i class="fas fa-shield-alt"></i> Banker's Algorithm Simulator</h1>
+            <p>Test system safety and resource allocation using the classic Banker's Algorithm.</p>
+        </div>
+        <form id="bankers-form" class="bankers-form">
+            <label>Processes: <input type="number" id="num-processes" min="1" max="10" value="3"></label>
+            <label>Resources: <input type="number" id="num-resources" min="1" max="5" value="3"></label>
+            <button type="button" class="bankers-btn bankers-btn-sm" onclick="generateTables()">Set</button>
+        </form>
+        <div id="input-tables"></div>
+        <div id="bankers-result"></div>
+    </div>
+    <script>
+    function generateTables() {
+        const n = parseInt(document.getElementById('num-processes').value);
+        const m = parseInt(document.getElementById('num-resources').value);
+        let html = '';
+        html += '<form id="alloc-form" onsubmit="runBankers(event)">';
+        html += '<h3>Allocation Matrix</h3>' + matrixTable('alloc', n, m);
+        html += '<h3>Maximum Matrix</h3>' + matrixTable('max', n, m);
+        html += '<h3>Available Resources</h3>' + availableTable(m);
+        html += '<button type="submit" class="bankers-btn">Check Safety</button>';
+        html += '</form>';
+        document.getElementById('input-tables').innerHTML = html;
+        document.getElementById('bankers-result').innerHTML = '';
+    }
+    function matrixTable(prefix, n, m) {
+        let html = '<table class="bankers-table"><tr><th></th>';
+        for (let j = 0; j < m; j++) html += `<th>R${j}</th>`;
+        html += '</tr>';
+        for (let i = 0; i < n; i++) {
+            html += `<tr><th>P${i}</th>`;
+            for (let j = 0; j < m; j++) {
+                html += `<td><input type="number" name="${prefix}_${i}_${j}" min="0" value="0"></td>`;
+            }
+            html += '</tr>';
+        }
+        html += '</table>';
+        return html;
+    }
+    function availableTable(m) {
+        let html = '<table class="bankers-table"><tr>';
+        for (let j = 0; j < m; j++) html += `<th>R${j}</th>`;
+        html += '</tr><tr>';
+        for (let j = 0; j < m; j++) html += `<td><input type="number" name="avail_${j}" min="0" value="0"></td>`;
+        html += '</tr></table>';
+        return html;
+    }
+    function runBankers(e) {
+        e.preventDefault();
+        const n = parseInt(document.getElementById('num-processes').value);
+        const m = parseInt(document.getElementById('num-resources').value);
+        const alloc = [], max = [], avail = [];
+        for (let i = 0; i < n; i++) {
+            alloc[i] = [];
+            max[i] = [];
+            for (let j = 0; j < m; j++) {
+                alloc[i][j] = parseInt(document.querySelector(`[name='alloc_${i}_${j}']`).value);
+                max[i][j] = parseInt(document.querySelector(`[name='max_${i}_${j}']`).value);
+            }
+        }
+        for (let j = 0; j < m; j++) {
+            avail[j] = parseInt(document.querySelector(`[name='avail_${j}']`).value);
+        }
+        const need = [];
+        for (let i = 0; i < n; i++) {
+            need[i] = [];
+            for (let j = 0; j < m; j++) {
+                need[i][j] = max[i][j] - alloc[i][j];
+            }
+        }
+        // Banker's Algorithm
+        const finish = Array(n).fill(false);
+        const safeSeq = [];
+        const work = avail.slice();
+        let found;
+        for (let count = 0; count < n; count++) {
+            found = false;
+            for (let i = 0; i < n; i++) {
+                if (!finish[i] && need[i].every((needVal, j) => needVal <= work[j])) {
+                    for (let j = 0; j < m; j++) work[j] += alloc[i][j];
+                    safeSeq.push(i);
+                    finish[i] = true;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) break;
+        }
+        let resultHtml = '<h3>Need Matrix</h3>' + matrixToTable(need, 'Need');
+        if (finish.every(f => f)) {
+            resultHtml += `<div class="bankers-safe"><i class="fas fa-check-circle"></i> System is SAFE.<br>Safe Sequence: ${safeSeq.map(i => 'P'+i).join(' → ')}</div>`;
+        } else {
+            resultHtml += `<div class="bankers-unsafe"><i class="fas fa-exclamation-triangle"></i> System is NOT SAFE.</div>`;
+        }
+        document.getElementById('bankers-result').innerHTML = resultHtml;
+    }
+    function matrixToTable(mat, label) {
+        let html = '<table class="bankers-table"><tr><th></th>';
+        for (let j = 0; j < mat[0].length; j++) html += `<th>R${j}</th>`;
+        html += '</tr>';
+        for (let i = 0; i < mat.length; i++) {
+            html += `<tr><th>P${i}</th>`;
+            for (let j = 0; j < mat[0].length; j++) {
+                html += `<td>${mat[i][j]}</td>`;
+            }
+            html += '</tr>';
+        }
+        html += '</table>';
+        return html;
+    }
+    </script>
+</body>
+</html> 

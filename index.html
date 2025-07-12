@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Scheduling Algorithms Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Modern header removed for a cleaner look -->
+
+    <header class="main-header">
+        <div class="header-content">
+            <div class="header-title-row">
+                <h1><i class="fas fa-microchip"></i> OS Scheduling Algorithms Simulator</h1>
+            </div>
+            <p class="header-tagline">Visualize, compare, and analyze classic CPU scheduling algorithms with interactive Gantt charts and performance metrics.</p>
+        </div>
+    </header>
+    <nav class="main-nav-scroller">
+        <a href="index.html" class="main-nav-link active"><i class="fas fa-tasks"></i> Scheduling Algorithms</a>
+        <a href="bankers.html" class="main-nav-link" target="_blank"><i class="fas fa-shield-alt"></i> Banker’s Algorithm</a>
+    </nav>
+
+    <div class="container">
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section class="input-section">
+                <div class="card">
+                    <h2><i class="fas fa-cog"></i> Process Configuration</h2>
+                    
+                    <!-- Algorithm Selection -->
+                    <div class="form-group">
+                        <label for="algorithm">Select Scheduling Algorithm:</label>
+                        <select id="algorithm" class="form-control">
+                            <option value="fcfs">First Come First Serve (FCFS)</option>
+                            <option value="sjf">Shortest Job First (SJF)</option>
+                            <option value="srtf">Shortest Remaining Time First (SRTF)</option>
+                            <option value="rr">Round Robin (RR)</option>
+                            <option value="priority">Priority Scheduling</option>
+                            <option value="multilevel">Multilevel Queue</option>
+                        </select>
+                    </div>
+
+                    <!-- Round Robin Quantum -->
+                    <div class="form-group" id="quantum-group" style="display: none;">
+                        <label for="quantum">Time Quantum (ms):</label>
+                        <input type="number" id="quantum" class="form-control" value="2" min="1" max="10">
+                    </div>
+
+                    <!-- Process Input -->
+                    <div class="process-input">
+                        <h3>Add Processes</h3>
+                        <div class="process-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="process-id">Process ID:</label>
+                                    <input type="text" id="process-id" class="form-control" placeholder="P1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="arrival-time">Arrival Time:</label>
+                                    <input type="number" id="arrival-time" class="form-control" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="burst-time">Burst Time:</label>
+                                    <input type="number" id="burst-time" class="form-control" value="1" min="1">
+                                </div>
+                                <!-- Priority field is dynamically shown/hidden by JS for Priority and Multilevel Queue algorithms only -->
+                                <div class="form-group" id="priority-group">
+                                    <label for="priority">Priority:</label>
+                                    <input type="number" id="priority" class="form-control" value="1" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <button id="add-process" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Add Process
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Process Table -->
+                    <div class="process-table-container">
+                        <h3>Process List</h3>
+                        <div class="table-wrapper">
+                            <table id="process-table" class="process-table">
+                                <thead>
+                                    <tr>
+                                        <th>Process ID</th>
+                                        <th>Arrival Time</th>
+                                        <th>Burst Time</th>
+                                        <th>Priority</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="process-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Control Buttons -->
+                    <div class="control-buttons">
+                        <button id="calculate" class="btn btn-success">
+                            <i class="fas fa-play"></i> Calculate Schedule
+                        </button>
+                        <button id="clear" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                        <button id="add-sample" class="btn btn-info">
+                            <i class="fas fa-download"></i> Add Sample Data
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="results-section" style="display: none;">
+                <div class="card">
+                    <h2><i class="fas fa-chart-bar"></i> Scheduling Results</h2>
+                    
+                    <!-- Algorithm Info -->
+                    <div class="algorithm-info">
+                        <h3 id="algorithm-name">Algorithm Name</h3>
+                        <p id="algorithm-description">Algorithm description will appear here.</p>
+                    </div>
+
+                    <!-- Gantt Chart -->
+                    <div class="gantt-container">
+                        <h3>Gantt Chart</h3>
+                        <div class="gantt-chart" id="gantt-chart">
+                            <!-- Gantt chart will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Results Table -->
+                    <div class="results-table-container">
+                        <h3>Process Execution Details</h3>
+                        <div class="table-wrapper">
+                            <table id="results-table" class="results-table">
+                                <thead>
+                                    <tr>
+                                        <th>Process ID</th>
+                                        <th>Arrival Time</th>
+                                        <th>Burst Time</th>
+                                        <th>Completion Time</th>
+                                        <th>Turnaround Time</th>
+                                        <th>Waiting Time</th>
+                                        <th>Response Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="results-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Performance Metrics -->
+                    <div class="performance-metrics">
+                        <h3>Performance Metrics</h3>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-value" id="avg-turnaround">0</div>
+                                <div class="metric-label">Average Turnaround Time</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="avg-waiting">0</div>
+                                <div class="metric-label">Average Waiting Time</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="avg-response">0</div>
+                                <div class="metric-label">Average Response Time</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="cpu-utilization">0%</div>
+                                <div class="metric-label">CPU Utilization</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="throughput">0</div>
+                                <div class="metric-label">Throughput (processes/unit time)</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="total-time">0</div>
+                                <div class="metric-label">Total Execution Time</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Remove the Banker's Algorithm card section -->
+        </main>
+
+        <!-- Footer -->
+        <!-- Footer removed for a cleaner look -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

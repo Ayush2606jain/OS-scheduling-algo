@@ -1,0 +1,64 @@
+{
+  "name": "os-scheduling-algorithms-simulator",
+  "version": "1.0.0",
+  "description": "A comprehensive web application that simulates various CPU scheduling algorithms used in operating systems with interactive Gantt charts and performance metrics.",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx http-server -p 8000",
+    "dev": "live-server --port=8000",
+    "build": "echo 'No build process required for static HTML/CSS/JS project'",
+    "test": "echo 'No test framework configured'",
+    "lint": "echo 'No linter configured'"
+  },
+  "keywords": [
+    "operating-systems",
+    "cpu-scheduling",
+    "scheduling-algorithms",
+    "gantt-chart",
+    "process-scheduling",
+    "fcfs",
+    "sjf",
+    "srtf",
+    "round-robin",
+    "priority-scheduling",
+    "multilevel-queue",
+    "educational",
+    "simulator",
+    "web-application",
+    "javascript",
+    "html5",
+    "css3"
+  ],
+  "author": {
+    "name": "OS Scheduling Simulator Team",
+    "email": "contact@example.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/os-scheduling-simulator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/os-scheduling-simulator/issues"
+  },
+  "homepage": "https://github.com/username/os-scheduling-simulator#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "files": [
+    "index.html",
+    "styles.css",
+    "script.js",
+    "README.md"
+  ]
+} 
