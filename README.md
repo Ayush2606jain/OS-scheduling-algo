@@ -179,9 +179,14 @@ A comprehensive, interactive web application that simulates various CPU scheduli
 - Update input forms and tables accordingly
 - Modify algorithm logic to handle new properties
 
+##Images 
+
 <img width="1909" height="920" alt="Screenshot 2025-07-12 151038" src="https://github.com/user-attachments/assets/118b9dc2-3ba9-4b5d-ac3f-15340715c6af" />
-
-
+<img width="1876" height="918" alt="Screenshot 2025-07-12 151111" src="https://github.com/user-attachments/assets/7a5d6b9e-a7bb-4b21-92bf-6cc00de1fb36" />
+<img width="1894" height="919" alt="Screenshot 2025-07-12 151126" src="https://github.com/user-attachments/assets/4adfd298-499b-4a70-b16e-86126ed327ec" />
+<img width="1909" height="881" alt="Screenshot 2025-07-12 151138" src="https://github.com/user-attachments/assets/975d71f3-7cc4-4175-b8c1-2b756735d31a" />
+<img width="1886" height="893" alt="Screenshot 2025-07-12 151155" src="https://github.com/user-attachments/assets/dc1c1905-390e-4281-9f17-e9572c65e941" />
+<img width="1872" height="758" alt="Screenshot 2025-07-12 151213" src="https://github.com/user-attachments/assets/1b923770-e100-4477-a5a9-717487cf2242" />
 
 ## 🧪 Testing
 
