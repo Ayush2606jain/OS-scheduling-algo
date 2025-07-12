@@ -187,7 +187,9 @@ A comprehensive, interactive web application that simulates various CPU scheduli
 <img width="1876" height="918" alt="Screenshot 2025-07-12 151111" src="https://github.com/user-attachments/assets/7a5d6b9e-a7bb-4b21-92bf-6cc00de1fb36" />
 
 
-<img width="1894" height="919" alt="Screenshot 2025-07-12 151126" src="https://github.com/user-attachments/assets/4adfd298-499b-4a70-b16e-86126ed327ec" />
+<img width="1894" height="919" alt="Screenshot" src="https://github.com/user-attachments/assets/4adfd298-499b-4a70-b16e-86126ed327ec" />
+
+
 
 
 <img width="1909" height="881" alt="Screenshot 2025-07-12 151138" src="https://github.com/user-attachments/assets/975d71f3-7cc4-4175-b8c1-2b756735d31a" />
