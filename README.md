@@ -230,8 +230,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 For questions, suggestions, or contributions:
 - Create an issue on the project repository
-- Contact the development team
 
----
-
-**Note**: This project is designed for educational purposes and provides a comprehensive understanding of CPU scheduling algorithms used in operating systems. It's perfect for students, educators, and anyone interested in learning about process scheduling concepts. 
