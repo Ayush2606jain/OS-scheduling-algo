@@ -179,6 +179,10 @@ A comprehensive, interactive web application that simulates various CPU scheduli
 - Update input forms and tables accordingly
 - Modify algorithm logic to handle new properties
 
+![Uploading Screenshot 2025-07-12 151038.png…]()
+
+
+
 ## 🧪 Testing
 
 ### Sample Test Cases
